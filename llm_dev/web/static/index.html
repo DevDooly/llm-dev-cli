@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Governance & Compliance Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-area">
+                <span class="logo-icon">🤖</span>
+                <div>
+                    <h1>LLM Dev Governance Hub</h1>
+                    <p class="subtitle">표준 라이프사이클 준수 & 사전 인프라 실시간 진단기</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button id="refreshBtn" class="btn btn-primary" onclick="loadAllData()">
+                    <span class="icon">🔄</span> 새로고침
+                </button>
+            </div>
+        </header>
+
+        <!-- KPI Metrics Grid -->
+        <section class="metrics-grid">
+            <div class="card metric-card">
+                <div class="metric-info">
+                    <span class="metric-label">표준 준수율 (Doctor Score)</span>
+                    <h2 id="complianceScore" class="metric-value">--%</h2>
+                    <span id="complianceDetail" class="metric-sub">0/0 항목 통과</span>
+                </div>
+                <div class="metric-badge" id="complianceBadge">진단 중</div>
+            </div>
+
+            <div class="card metric-card">
+                <div class="metric-info">
+                    <span class="metric-label">체크리스트 종합 완료율</span>
+                    <h2 id="overallProgress" class="metric-value">--%</h2>
+                    <span id="taskDetail" class="metric-sub">0/0 작업 완료</span>
+                </div>
+                <div class="metric-badge badge-blue">진척도</div>
+            </div>
+
+            <div class="card metric-card">
+                <div class="metric-info">
+                    <span class="metric-label">사전 인프라 4대 영역</span>
+                    <h2 class="metric-value">Day 0</h2>
+                    <span class="metric-sub">Docker • ELF • Auth • Security</span>
+                </div>
+                <div class="metric-badge badge-purple">Standard</div>
+            </div>
+        </section>
+
+        <!-- Main Content Columns -->
+        <main class="content-layout">
+            <!-- Left: Doctor Diagnostics -->
+            <section class="card panel-section">
+                <div class="panel-header">
+                    <h2>🔍 Doctor 실시간 진단 결과</h2>
+                    <span class="badge" id="diagnosticCount">0 checks</span>
+                </div>
+                <div id="diagnosticsList" class="diagnostics-list">
+                    <div class="loading-spinner">진단 데이터를 불러오는 중...</div>
+                </div>
+            </section>
+
+            <!-- Right: Document Checklist Progress -->
+            <section class="card panel-section">
+                <div class="panel-header">
+                    <h2>📋 문서별 체크리스트 진척도</h2>
+                    <span class="badge" id="documentCount">0 files</span>
+                </div>
+                <div id="tasksList" class="tasks-list">
+                    <div class="loading-spinner">체크리스트 데이터를 불러오는 중...</div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

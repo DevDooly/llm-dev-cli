@@ -1,0 +1,23 @@
+# ==============================================================================
+# LLM Project AI Coding Rules (.cursorrules)
+# ==============================================================================
+
+# 1. Core Principles
+- Modern & Robust Coding: Follow clean architecture and production-grade patterns.
+- Strict Prohibitions:
+  - DO NOT hardcode secrets (API keys, DB credentials, JWT secrets). Use environment variables.
+  - DO NOT execute untrusted LLM/Agent generated code on host without a Docker sandbox.
+  - DO NOT call LLM APIs without structured logging (MDC, traceId, token usage, latency).
+  - DO NOT guess ambiguous requirements. Ask clarifying questions.
+
+# 2. Response Schema Convention
+All API endpoints must return consistent JSON responses:
+- Success (HTTP 200/201):
+  { "success": true, "data": { ... }, "error": null }
+- Failure (HTTP 4xx/5xx):
+  { "success": false, "data": null, "error": { "code": "ERROR_CODE", "message": "Reason" } }
+
+# 3. Security & PII Protection
+- Mask sensitive PII (Resident numbers, Phone, Email, Credit Cards) before passing text to LLM or logs.
+- Enforce delimiter tags (e.g., <<<USER_INPUT>>>) to defend against Prompt Injection.
+- Enforce Rate Limiting (RPM & TPM) via Redis token bucket.

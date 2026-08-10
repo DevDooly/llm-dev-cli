@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="JSON_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <timeZone>UTC</timeZone>
+                </timestamp>
+                <pattern>
+                    <pattern>
+                        {
+                            "level": "%level",
+                            "service_name": "spring-llm-service",
+                            "thread": "%thread",
+                            "logger": "%logger",
+                            "trace_id": "%X{traceId:-N/A}",
+                            "user_id": "%X{userId:-anonymous}",
+                            "message": "%message",
+                            "exception": "%ex"
+                        }
+                    </pattern>
+                </pattern>
+                <arguments/>
+                <mdc/>
+            </providers>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="JSON_CONSOLE" />
+    </root>
+</configuration>

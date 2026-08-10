@@ -1,0 +1,92 @@
+# 🤖 LLM Development CLI & Governance Hub (`llm-dev`)
+
+> **LLM(대형 언어 모델) 프로젝트 표준 스캐폴딩(Init), 4대 사전 인프라 진단(Doctor) 및 라이프사이클 거버넌스 자동화 도구**
+
+---
+
+## 📌 주요 기능 (Key Features)
+
+- 🚀 **`llm-dev init`**: 신규 프로젝트에 4대 인프라 가이드라인 문서, AI 코딩 룰셋(`.cursorrules`, `AGENTS.md`), Docker/EFK 로깅 스택, PII 마스커 모듈을 한 번에 스캐폴딩
+- 🔍 **`llm-dev doctor`**: 소스코드 및 환경을 정적 분석하여 API Key 하드코딩 여부, JSON 구조화 로깅, Docker 샌드박스 격리, Rate Limiter, API 응답 포맷 준수 여부 실시간 진단
+- 📊 **`llm-dev status`**: 마크다운 체크리스트를 기반으로 Day 0 ~ Day 5 단계별 프로젝트 진척도를 터미널 프로그레스 바 형태로 집계
+- 🌐 **`llm-dev view`**: Glassmorphism 다크 테마 기반의 로컬 경량 웹 대시보드 제공 (실시간 진단 및 문서 진척도 시각화)
+
+---
+
+## 🛠️ 설치 방법 (Installation)
+
+### 1) 로컬 개발 모드 설치
+```bash
+cd /home/rudy/dev/repository/devdooly/llm-dev-cli
+pip install -e .
+```
+
+설치 후 터미널 어디서든 `llm-dev` 명령어를 바로 실행할 수 있습니다.
+
+---
+
+## 🚀 사용 가이드 (Usage Guide)
+
+### 1. 신규 LLM 프로젝트 초기화 (`init`)
+새로운 프로젝트 디렉토리를 생성하고 표준 스펙으로 초기화합니다.
+```bash
+# FastAPI 백엔드 + Docker/EFK 로깅 스택 포함 초기화
+llm-dev init --name my-rag-service --dir ./my-rag-service --stack fastapi
+
+# Spring Boot 백엔드 스택으로 초기화
+llm-dev init --name enterprise-ai --dir ./enterprise-ai --stack spring
+```
+
+### 2. 프로젝트 거버넌스 및 보안 진단 (`doctor`)
+프로젝트 폴더 내에서 표준 준수 여부를 검사합니다.
+```bash
+cd my-rag-service
+llm-dev doctor
+```
+
+### 3. 마크다운 체크리스트 진행률 확인 (`status`)
+```bash
+llm-dev status
+```
+
+### 4. 로컬 웹 대시보드 실행 (`view`)
+```bash
+llm-dev view --port 8899
+# 브라우저에서 http://127.0.0.1:8899 접속
+```
+
+---
+
+## 📂 프로젝트 구조
+
+```text
+llm-dev-cli/
+├── pyproject.toml
+├── setup.py
+├── requirements.txt
+├── README.md
+├── llm_dev/
+│   ├── main.py              # CLI 엔트리포인트
+│   ├── config.py            # 경로 및 상수
+│   ├── commands/            # CLI 서브커맨드 (init, doctor, status, view)
+│   ├── checkers/            # 정적 분석 및 룰 검사기 모음
+│   ├── web/                 # FastAPI + HTML/CSS/JS 대시보드
+│   └── templates/           # 내장 표준 문서, 룰셋, Docker, 보일러플레이트
+```
+
+---
+
+## 🔗 GitHub 원격 저장소 연동 가이드
+
+GitHub에서 새 저장소(`DevDooly/llm-dev-cli`)를 생성한 후 아래 명령어로 원격 저장소에 연결하고 푸시할 수 있습니다.
+
+```bash
+cd /home/rudy/dev/repository/devdooly/llm-dev-cli
+
+# 원격 저장소 등록 (SSH 기준)
+git remote add origin git@github.com:DevDooly/llm-dev-cli.git
+
+# 메인 브랜치 푸시
+git branch -M main
+git push -u origin main
+```
