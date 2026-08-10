@@ -2,11 +2,19 @@ import argparse
 import sys
 from pathlib import Path
 
-from . import __version__
-from .commands.init import run_init
-from .commands.doctor import run_doctor
-from .commands.status import run_status
-from .commands.view import run_view
+if __package__ is None or __package__ == "":
+    sys.path.insert(0, str(Path(__file__).parent.parent.resolve()))
+    from llm_dev import __version__
+    from llm_dev.commands.init import run_init
+    from llm_dev.commands.doctor import run_doctor
+    from llm_dev.commands.status import run_status
+    from llm_dev.commands.view import run_view
+else:
+    from . import __version__
+    from .commands.init import run_init
+    from .commands.doctor import run_doctor
+    from .commands.status import run_status
+    from .commands.view import run_view
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
