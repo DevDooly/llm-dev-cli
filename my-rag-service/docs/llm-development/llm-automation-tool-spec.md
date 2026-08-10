@@ -111,10 +111,9 @@ Phase 5. LLMOps & 관제         : [░░░░░░░░░░░░░░�
 시각적 UI가 필요한 경우, 경량 로컬 웹 서버를 실행하여 웹 브라우저에서 대시보드를 확인합니다.
 
 ```bash
-$ llm-dev view --port 8899 --host 0.0.0.0
-🚀 Local Dashboard running at http://0.0.0.0:8899 (Press Ctrl+C to stop)
+$ llm-dev view --port 8899
+🚀 Local Dashboard running at http://localhost:8899 (Press Ctrl+C to stop)
 ```
-
 
 ---
 
