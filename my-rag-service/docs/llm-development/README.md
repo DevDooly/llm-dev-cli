@@ -34,19 +34,29 @@
 
 ## 🔄 LLM 개발 6단계 라이프사이클 (Lifecycle Overview)
 
-```
-┌───────────────────────────┐     ┌───────────────────────────┐     ┌───────────────────────────┐
-│  Phase 0. Day 0 기반 구축 │  ➔  │ Phase 1. 문제 & 아키텍처  │  ➔  │ Phase 2. 프롬프트/컨텍스트│
-│ (Docker/보안/인증/ELF로깅)│     │ (Prompt vs RAG vs Agent)  │     │  (System Prompt/Chunking) │
-└───────────────────────────┘     └───────────────────────────┘     └───────────────────────────┘
-                                                                                  │
-┌───────────────────────────┐     ┌───────────────────────────┐                   │
-│   Phase 5. LLMOps & 관제  │  ◀  │  Phase 4. 평가/보안/가드  │  ◀────────────────┘
-│ (Kibana/토큰/비용 제어)   │     │(RAGAS, Prompt Injection)  │  Phase 3. AI 협업 코딩
-└───────────────────────────┘     └───────────────────────────┘  (Small Step & Sandbox 검증)
+```mermaid
+flowchart LR
+    P0["<b>Phase 0. Day 0 기반 구축</b><br><small>Docker·보안·인증·ELF로깅</small>"]
+    P1["<b>Phase 1. 문제 & 아키텍처</b><br><small>Prompt vs RAG vs Agent</small>"]
+    P2["<b>Phase 2. 프롬프트/컨텍스트</b><br><small>System Prompt·Chunking</small>"]
+    P3["<b>Phase 3. AI 협업 코딩</b><br><small>Small Step·Sandbox 검증</small>"]
+    P4["<b>Phase 4. 평가/보안 가드</b><br><small>RAGAS·PII·Prompt Injection</small>"]
+    P5["<b>Phase 5. LLMOps & 관제</b><br><small>Kibana·토큰/비용 모니터링</small>"]
+
+    P0 --> P1 --> P2 --> P3 --> P4 --> P5
 ```
 
+| 단계 | 단계명 | 핵심 목표 및 주요 작업 | 참조 가이드 |
+| :---: | :--- | :--- | :--- |
+| **Phase 0** | 🏗️ **Day 0 기반 구축** | Docker/Sandbox, 시크릿 격리, Redis Rate Limiter, ELF 구조화 로깅 | `llm-foundation-setup.md` |
+| **Phase 1** | 📐 **문제 & 기술 선택** | 최적 기술 선정 (Prompt vs RAG vs Fine-Tuning vs Agent) | `llm-guidelines.md` (Phase 1) |
+| **Phase 2** | ✍️ **프롬프트/컨텍스트** | 역할/제약조건 명시(Role-Task-Context), 청킹 및 메타데이터 주입 | `prompt-templates-catalog.md` |
+| **Phase 3** | 🤖 **AI 페어 프로그래밍** | 작은 단위 점진 개발(Small Step), 역질문 유도, 샌드박스 검증 | `llm-guidelines.md` (Phase 3) |
+| **Phase 4** | 🛡️ **평가 & 보안 가드** | RAGAS 정량 평가, Prompt Injection 방어, 개인정보 유출 검증 | `llm-eval-and-benchmarks.md` |
+| **Phase 5** | 📊 **LLMOps & 관제** | 실시간 토큰/비용 추이 관제, 지연시간(P99) 및 이상 탐지 알림 | `llm-logging-and-observability.md` |
+
 ---
+
 
 ## ⚡ AI 코딩 어시스턴트 핵심 룰 요약 (Core Rules Snapshot)
 

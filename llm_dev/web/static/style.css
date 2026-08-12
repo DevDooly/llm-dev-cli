@@ -517,3 +517,25 @@ body {
     background-color: rgba(56, 189, 248, 0.06);
 }
 
+/* ==========================================================================
+   Mermaid Diagram Container Styling
+   ========================================================================== */
+.markdown-body .mermaid {
+    background: #090d16;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: auto;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+.markdown-body .mermaid svg {
+    max-width: 100%;
+    height: auto;
+}
+
+

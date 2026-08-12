@@ -11,27 +11,33 @@ API 호출 비용이 발생하고, 모델의 비결정적(Non-deterministic) 특
 
 따라서 **실제 LLM 연동 코드(프롬프트, RAG, Agent 로직)를 작성하기 전, 반드시 다음 4대 기반 인프라(Day 0 Foundation)를 최우선으로 구축**해야 합니다.
 
-```
-┌─────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                           Day 0: 사전 필수 기반 환경 (Pre-requisite Foundation)                  │
-├───────────────────┬───────────────────┬───────────────────────────┬─────────────────────────────┤
-│ 1. Docker & 격리  │ 2. 인증/인가·제어 │ 3. 보안 & 가드레일        │ 4. ELF/EFK 중앙 로깅·관측   │
-│ (Containerization)│ (Auth & Quotas)   │ (Security & Guardrails)   │ (Logging & Observability)   │
-├───────────────────┼───────────────────┼───────────────────────────┼─────────────────────────────┤
-│ • 표준 Dockerfile │ • API Key/JWT     │ • Secret Vault/Env 격리   │ • Fluent Bit + ES + Kibana  │
-│ • Docker Compose  │ • RPM/TPM Rate    │ • Prompt Injection 방어   │ • LLM 구조화 JSON 로깅      │
-│ • Agent Sandbox   │   Limiter (Redis) │ • PII 실시간 자동 마스킹  │ • 토큰/비용/지연시간 대시보드│
-│   (코드 실행 격리)│ • RAG 문서별 RBAC │ • Output Sanitization     │ • 에러/비용 급증 알림       │
-└───────────────────┴───────────────────┴───────────────────────────┴─────────────────────────────┘
-                                                │
-                                                ▼ (선행 인프라 완비 후 개발 착수)
-┌─────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                        Day 1+: 비즈니스 로직 및 LLM 파이프라인 개발                              │
-│         [Prompt Engineering]  ➔  [RAG & Vector DB]  ➔  [Agent & Tools]  ➔  [평가 & 튜닝]        │
-└─────────────────────────────────────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    subgraph Day0 ["<b>Day 0. 사전 필수 기반 인프라 (Pre-requisite Foundation)</b>"]
+        direction LR
+        I1["🐳 <b>Docker & Sandbox</b><br><small>표준 컨테이너·코드 격리</small>"]
+        I2["🔐 <b>인증 & 토큰 제어</b><br><small>JWT/Key·Redis Rate Limiter</small>"]
+        I3["🛡️ <b>보안 & 가드레일</b><br><small>시크릿 격리·PII 마스킹</small>"]
+        I4["📊 <b>ELF 중앙 로깅</b><br><small>JSON 로깅·Kibana 관제</small>"]
+    end
+
+    subgraph Day1 ["<b>Day 1+. 비즈니스 로직 및 LLM 파이프라인 개발</b>"]
+        direction LR
+        L1["프롬프트 엔지니어링"] --> L2["RAG & Vector DB"] --> L3["Agent & Tool Calling"] --> L4["평가 & LLMOps"]
+    end
+
+    Day0 ==> Day1
 ```
 
+| 4대 선행 영역 | 핵심 구축 항목 | 주요 보호 및 기대 효과 |
+| :--- | :--- | :--- |
+| 🐳 **1. Docker & Sandbox** | Multi-stage Dockerfile, docker-compose 통합 스택, 격리 샌드박스 | 호스트 시스템 침해 방지 및 환경 표준화 |
+| 🔐 **2. 인증/인가·제어** | API Key/JWT 인증, Redis Token Bucket Rate Limiter, RAG RBAC | 무단 접근 차단 및 토큰 과금 비용 폭탄 방지 |
+| 🛡️ **3. 보안 & 가드레일** | Secret Manager 격리, PII 실시간 자동 마스킹, Prompt Injection 방어 | 사내 민감정보 유출 차단 및 악의적 프롬프트 방어 |
+| 📊 **4. ELF 중앙 로깅** | Fluent Bit + Elasticsearch + Kibana, 구조화 JSON 로깅 (TraceID/MDC) | 실시간 토큰/비용 추적 및 장애 즉각 식별 |
+
 ---
+
 
 ## 2. 4대 선행 인프라 구축 워크플로우
 

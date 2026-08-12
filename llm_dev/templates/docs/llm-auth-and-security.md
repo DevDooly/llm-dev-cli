@@ -8,27 +8,23 @@
 
 LLM 애플리케이션의 보안은 단순한 웹 보안(SQL Injection, XSS)을 넘어 **토큰 과금 남용 방지**, **프롬프트 탈취/주입(Injection) 방어**, **지식베이스(RAG) 권한 분리**를 포괄해야 합니다.
 
-```
-┌─────────────────────────────────────────────────────────────────────────────────────────────┐
-│                          [Layer 1: Gateway & Traffic Governance]                             │
-│  - JWT / API Key 인증  |  - Redis Token Bucket Rate Limiter (RPM / TPM 제어)                │
-└──────────────────────────────────────────────┬──────────────────────────────────────────────┘
-                                               │
-                                               ▼
-┌─────────────────────────────────────────────────────────────────────────────────────────────┐
-│                           [Layer 2: Input Guardrails & Filtering]                           │
-│  - PII 실시간 자동 마스킹 (Presidio)  |  - Prompt Injection & Jailbreak 1차 필터링          │
-│  - RAG 문서 접근 권한 제어 (Document-level RBAC Filter)                                     │
-└──────────────────────────────────────────────┬──────────────────────────────────────────────┘
-                                               │
-                                               ▼
-┌─────────────────────────────────────────────────────────────────────────────────────────────┐
-│                          [Layer 3: Output Guardrails & Auditing]                            │
-│  - Output Sanitization (민감 정보 유출 2차 검증)  |  - ELF 중앙 감사 로깅                   │
-└─────────────────────────────────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    L1["<b>Layer 1. Gateway & 트래픽 거버넌스</b><br><small>JWT/API Key 인증 • Redis Token Bucket Rate Limiter (RPM/TPM)</small>"]
+    L2["<b>Layer 2. Input 가드레일 & 보안 필터링</b><br><small>PII 실시간 자동 마스킹 • Prompt Injection 방어 • Document RBAC Filter</small>"]
+    L3["<b>Layer 3. Output 가드레일 & 감사 관제</b><br><small>Output Sanitization • ELF 중앙 감사 로깅</small>"]
+
+    L1 --> L2 --> L3
 ```
 
+| 계층 | 보안 영역 | 핵심 통제 항목 | 세부 구현 내용 |
+| :---: | :--- | :--- | :--- |
+| **Layer 1** | 🚪 **Gateway & 트래픽** | API Key/JWT 인증, Rate Limiter | 사용자/테넌트별 인증 및 Redis 기반 RPM/TPM/월간 쿼터 강제 |
+| **Layer 2** | 🛡️ **Input 가드레일** | PII 마스킹, Prompt Injection 방어, RBAC | 프롬프트 주입 방어, 민감정보 필터링, RAG 문서별 접근 제어 |
+| **Layer 3** | 🔍 **Output & 감사** | Output Sanitization, 중앙 감사 로깅 | LLM 응답 내 시크릿 유출 방지 및 Elasticsearch 감사 추적 |
+
 ---
+
 
 ## 2. 비용 및 트래픽 제어: Redis 기반 Token Bucket Rate Limiter
 

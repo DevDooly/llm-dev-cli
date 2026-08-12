@@ -100,7 +100,21 @@ async function openDocModal(fileName) {
 
         pathEl.textContent = docData.path || fileName;
         if (window.marked) {
-            bodyEl.innerHTML = marked.parse(docData.content);
+            let html = marked.parse(docData.content);
+            bodyEl.innerHTML = html;
+
+            // Mermaid 다이어그램 블록 변환 및 렌더링
+            const mermaidBlocks = bodyEl.querySelectorAll('pre code.language-mermaid');
+            if (mermaidBlocks.length > 0 && window.mermaid) {
+                mermaidBlocks.forEach(block => {
+                    const pre = block.parentElement;
+                    const div = document.createElement('div');
+                    div.className = 'mermaid';
+                    div.textContent = block.textContent;
+                    pre.replaceWith(div);
+                });
+                await mermaid.run({ nodes: bodyEl.querySelectorAll('.mermaid') });
+            }
         } else {
             bodyEl.textContent = docData.content;
         }
@@ -126,6 +140,23 @@ document.addEventListener('keydown', (e) => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+    if (window.mermaid) {
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'dark',
+            themeVariables: {
+                darkMode: true,
+                background: '#0b0f19',
+                primaryColor: '#1e293b',
+                primaryTextColor: '#f8fafc',
+                primaryBorderColor: '#38bdf8',
+                lineColor: '#38bdf8',
+                secondaryColor: '#334155',
+                tertiaryColor: '#0f172a'
+            }
+        });
+    }
     loadAllData();
 });
+
 
