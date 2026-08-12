@@ -9,12 +9,14 @@ if __package__ is None or __package__ == "":
     from llm_dev.commands.doctor import run_doctor
     from llm_dev.commands.status import run_status
     from llm_dev.commands.view import run_view
+    from llm_dev.interactive import run_interactive_menu
 else:
     from . import __version__
     from .commands.init import run_init
     from .commands.doctor import run_doctor
     from .commands.status import run_status
     from .commands.view import run_view
+    from .interactive import run_interactive_menu
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
@@ -23,7 +25,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("-v", "--version", action="version", version=f"llm-dev v{__version__}")
 
-    subparsers = parser.add_subparsers(dest="command", help="Available subcommands")
+    subparsers = parser.add_subparsers(dest="command", help="Available subcommands (run without args for interactive TUI menu)")
 
     # init command
     init_parser = subparsers.add_parser("init", help="Scaffold standard LLM project knowledge base & templates")
@@ -53,8 +55,13 @@ def main():
     args = parser.parse_args()
 
     if not args.command:
-        parser.print_help()
-        sys.exit(0)
+        # 인자 없이 실행 시 대화형 TUI 메뉴 시작
+        try:
+            run_interactive_menu()
+        except KeyboardInterrupt:
+            print("\n👋 프로그램을 종료합니다.")
+            sys.exit(0)
+        return
 
     target_dir = Path(args.dir).resolve()
 
@@ -73,6 +80,7 @@ def main():
         run_status(target_dir)
     elif args.command == "view":
         run_view(target_dir, port=args.port, host=args.host)
+
 
 if __name__ == "__main__":
     main()
