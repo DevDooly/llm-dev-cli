@@ -52,14 +52,25 @@ llm-dev
 ---
 
 ### 1. 신규 LLM 프로젝트 초기화 (`init`)
-새로운 프로젝트 디렉토리를 생성하고 표준 스펙으로 초기화합니다.
+프로젝트 성격(표준 풀스택, 경량 PoC, 외부 원격 Elasticsearch 연동 등)에 따라 유연하게 초기화할 수 있습니다.
+
 ```bash
-# FastAPI 백엔드 + Docker/EFK 로깅 스택 포함 초기화
+# 🌟 [기본] 표준 전체 스캐폴딩 (FastAPI + 전체 로컬 EFK + Vector DB + 룰셋)
 llm-dev init --name my-rag-service --dir ./my-rag-service --stack fastapi
 
-# Spring Boot 백엔드 스택으로 초기화
-llm-dev init --name enterprise-ai --dir ./enterprise-ai --stack spring
+# 🪶 [경량 PoC] 가볍게 빠른 시작 (무거운 Docker/ELK 제외, 핵심 가이드+룰셋+코드만 생성)
+llm-dev init --name quick-poc --dir ./quick-poc --preset minimal
+
+# 🌐 [원격 ES 연동] 기존 사내 Elasticsearch 클러스터 연동 (로컬 ES 컨테이너 제외)
+llm-dev init --name enterprise-ai --dir ./enterprise-ai --docker-mode remote_es --es-host 192.168.0.28 --es-port 9200
+
+# ⚡ [Vector DB 전용] Qdrant & Redis만 구동 (ELK 제외)
+llm-dev init --name vector-service --dir ./vector-service --docker-mode vector_only
+
+# ☕ Spring Boot 3 백엔드 스택으로 초기화
+llm-dev init --name spring-ai --dir ./spring-ai --stack spring
 ```
+
 
 ### 2. 프로젝트 거버넌스 및 보안 진단 (`doctor`)
 프로젝트 폴더 내에서 표준 준수 여부를 검사합니다.

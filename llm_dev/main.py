@@ -32,7 +32,13 @@ def build_parser() -> argparse.ArgumentParser:
     init_parser.add_argument("--name", "-n", type=str, default=None, help="Project name (defaults to current dir name)")
     init_parser.add_argument("--dir", "-d", type=str, default=".", help="Target project directory")
     init_parser.add_argument("--stack", "-s", choices=["fastapi", "spring", "none"], default="fastapi", help="Backend boilerplate stack")
+    init_parser.add_argument("--preset", choices=["standard", "minimal"], default="standard", help="Scaffolding preset")
+    init_parser.add_argument("--docker-mode", choices=["local_efk", "remote_es", "vector_only", "none"], default=None, help="Docker & logging stack mode")
+    init_parser.add_argument("--es-host", type=str, default="elasticsearch", help="Remote Elasticsearch host (when using remote_es mode)")
+    init_parser.add_argument("--es-port", type=int, default=9200, help="Remote Elasticsearch port (default: 9200)")
     init_parser.add_argument("--no-docker", action="store_true", help="Skip generating docker-compose and logging stack")
+    init_parser.add_argument("--no-rules", action="store_true", help="Skip generating AI ruleset (.cursorrules, AGENTS.md)")
+    init_parser.add_argument("--docs", type=str, default=None, help="Comma-separated doc names to include (e.g. 'foundation,auth,guidelines')")
 
     # doctor command
     doctor_parser = subparsers.add_parser("doctor", help="Run diagnostic checks on governance and security rules")
@@ -67,11 +73,35 @@ def main():
 
     if args.command == "init":
         p_name = args.name or target_dir.name
+        
+        # docker_mode 결정
+        docker_mode = args.docker_mode
+        if args.no_docker:
+            docker_mode = "none"
+        elif docker_mode is None:
+            docker_mode = "none" if args.preset == "minimal" else "local_efk"
+
+        # 문서 필터링 결정
+        docs_selection = None
+        if args.preset == "minimal":
+            docs_selection = ["README.md", "llm-foundation-setup.md", "llm-guidelines.md"]
+        elif args.docs:
+            docs_selection = ["README.md"]
+            for d in args.docs.split(","):
+                d = d.strip()
+                if not d.endswith(".md"):
+                    d = f"llm-{d}.md"
+                docs_selection.append(d)
+
         run_init(
             target_dir=target_dir,
             project_name=p_name,
             stack=args.stack,
-            include_docker=not args.no_docker
+            docker_mode=docker_mode,
+            es_host=args.es_host,
+            es_port=args.es_port,
+            docs_selection=docs_selection,
+            include_rules=not args.no_rules
         )
     elif args.command == "doctor":
         success = run_doctor(target_dir)
