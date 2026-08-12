@@ -15,9 +15,21 @@
 
 ## 2. LLM 프로젝트 추진 라이프사이클 (LLM Project Lifecycle)
 
+```mermaid
+flowchart TD
+    subgraph Part1 ["<b>[1단계] 사전 인프라 및 아키텍처 설계</b>"]
+        direction LR
+        P0["<b>Phase 0</b><br>Day 0 기반 인프라<br><small>(Docker·보안·인증·ELF)</small>"] --> P1["<b>Phase 1</b><br>문제 정의 & 아키텍처<br><small>(Prompt vs RAG vs Agent)</small>"] --> P2["<b>Phase 2</b><br>프롬프트 & 컨텍스트<br><small>(System Prompt·청킹)</small>"]
+    end
+
+    subgraph Part2 ["<b>[2단계] AI 협업 구현, 평가 및 운영</b>"]
+        direction LR
+        P3["<b>Phase 3</b><br>AI 협업 코딩 구현<br><small>(Small Step·Sandbox)</small>"] --> P4["<b>Phase 4</b><br>평가 / 보안 가드레일<br><small>(RAGAS·PII·Jailbreak)</small>"] --> P5["<b>Phase 5</b><br>LLMOps & 중앙 관제<br><small>(Kibana·토큰/비용 모니터링)</small>"]
+    end
+
+    Part1 ==> Part2
 ```
-[Phase 0: Day 0 기반 구축] ➔ [Phase 1: 문제 정의 & 기술 선택] ➔ [Phase 2: 프롬프트 & 컨텍스트] ➔ [Phase 3: AI 협업 구현] ➔ [Phase 4: 평가 & 보안 가드] ➔ [Phase 5: LLMOps 관제]
-```
+
 
 ### Phase 0: 사전 필수 기반 환경 구축 (Day 0 Foundation - Pre-requisite)
 > **🚨 CRITICAL:** 실제 LLM API 연동 및 비즈니스 코드 개발 전, 아래 4대 인프라를 최우선으로 선행 구축해야 합니다.

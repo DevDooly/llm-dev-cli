@@ -35,15 +35,18 @@
 ## 🔄 LLM 개발 6단계 라이프사이클 (Lifecycle Overview)
 
 ```mermaid
-flowchart LR
-    P0["<b>Phase 0. Day 0 기반 구축</b><br><small>Docker·보안·인증·ELF로깅</small>"]
-    P1["<b>Phase 1. 문제 & 아키텍처</b><br><small>Prompt vs RAG vs Agent</small>"]
-    P2["<b>Phase 2. 프롬프트/컨텍스트</b><br><small>System Prompt·Chunking</small>"]
-    P3["<b>Phase 3. AI 협업 코딩</b><br><small>Small Step·Sandbox 검증</small>"]
-    P4["<b>Phase 4. 평가/보안 가드</b><br><small>RAGAS·PII·Prompt Injection</small>"]
-    P5["<b>Phase 5. LLMOps & 관제</b><br><small>Kibana·토큰/비용 모니터링</small>"]
+flowchart TD
+    subgraph Part1 ["<b>[1단계] 사전 인프라 및 아키텍처 설계</b>"]
+        direction LR
+        P0["<b>Phase 0</b><br>Day 0 기반 인프라<br><small>(Docker·보안·인증·ELF)</small>"] --> P1["<b>Phase 1</b><br>문제 정의 & 아키텍처<br><small>(Prompt vs RAG vs Agent)</small>"] --> P2["<b>Phase 2</b><br>프롬프트 & 컨텍스트<br><small>(System Prompt·청킹)</small>"]
+    end
 
-    P0 --> P1 --> P2 --> P3 --> P4 --> P5
+    subgraph Part2 ["<b>[2단계] AI 협업 구현, 평가 및 운영</b>"]
+        direction LR
+        P3["<b>Phase 3</b><br>AI 협업 코딩 구현<br><small>(Small Step·Sandbox)</small>"] --> P4["<b>Phase 4</b><br>평가 / 보안 가드레일<br><small>(RAGAS·PII·Jailbreak)</small>"] --> P5["<b>Phase 5</b><br>LLMOps & 중앙 관제<br><small>(Kibana·토큰/비용 모니터링)</small>"]
+    end
+
+    Part1 ==> Part2
 ```
 
 | 단계 | 단계명 | 핵심 목표 및 주요 작업 | 참조 가이드 |

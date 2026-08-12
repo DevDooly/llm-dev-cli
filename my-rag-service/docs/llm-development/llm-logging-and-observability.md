@@ -20,21 +20,26 @@
 ## 2. LLM 중앙 집중식 로깅 아키텍처 (ELF / EFK Architecture)
 
 ```mermaid
-flowchart LR
-    subgraph Apps ["LLM 애플리케이션 서비스"]
-        App1["Spring Boot 3 / Java 21"] -->|"JSON Log"| FB["Fluent Bit Daemon / Sidecar"]
+flowchart TD
+    subgraph Apps ["<b>[1단계] LLM 애플리케이션 서비스</b>"]
+        direction LR
+        App1["Spring Boot 3 / Java 21"] -->|"JSON Log"| FB["Fluent Bit Sidecar"]
         App2["FastAPI / Python"] -->|"JSON Log"| FB
     end
 
-    subgraph Pipeline ["중앙 로그 수집 및 인덱싱 파이프라인 (ELF/EFK)"]
+    subgraph Pipeline ["<b>[2단계] 중앙 로그 수집 & 인덱싱 파이프라인 (ELF/EFK)</b>"]
+        direction LR
         FB -->|"Log Forwarding (TCP 24224)"| Parser["Fluent Bit Parser & PII Filter"]
         Parser -->|"Bulk Indexing (HTTP 9200)"| ES[("Elasticsearch")]
     end
 
-    subgraph Observability ["관측성 및 대시보드"]
-        ES --> Kibana["Kibana Web UI (Port 5601)"]
-        ES --> Alert["Alert Manager (Telegram / Slack)"]
+    subgraph Observability ["<b>[3단계] 실시간 관측성 & 이상 탐지</b>"]
+        direction LR
+        ES --> Kibana["📊 Kibana Web UI (Port 5601)"]
+        ES --> Alert["🚨 Alert Manager (Telegram / Slack)"]
     end
+
+    Apps ==> Pipeline ==> Observability
 ```
 
 ---

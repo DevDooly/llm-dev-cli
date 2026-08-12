@@ -144,19 +144,30 @@ document.addEventListener('DOMContentLoaded', () => {
         mermaid.initialize({
             startOnLoad: false,
             theme: 'dark',
+            securityLevel: 'loose',
+            flowchart: {
+                curve: 'basis',
+                nodeSpacing: 40,
+                rankSpacing: 45,
+                useMaxWidth: true,
+                htmlLabels: true
+            },
             themeVariables: {
                 darkMode: true,
-                background: '#0b0f19',
+                background: '#090d16',
                 primaryColor: '#1e293b',
                 primaryTextColor: '#f8fafc',
                 primaryBorderColor: '#38bdf8',
                 lineColor: '#38bdf8',
-                secondaryColor: '#334155',
-                tertiaryColor: '#0f172a'
+                secondaryColor: '#1e1b4b',
+                tertiaryColor: '#0f172a',
+                fontSize: '13px',
+                fontFamily: 'Pretendard, system-ui, sans-serif'
             }
         });
     }
     loadAllData();
 });
+
 
 

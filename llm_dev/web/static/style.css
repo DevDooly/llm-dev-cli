@@ -313,7 +313,7 @@ body {
 
 .modal-content {
     width: 100%;
-    max-width: 960px;
+    max-width: 1040px;
     max-height: 88vh;
     display: flex;
     flex-direction: column;

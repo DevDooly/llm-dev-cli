@@ -13,15 +13,22 @@ API 호출 비용이 발생하고, 모델의 비결정적(Non-deterministic) 특
 
 ```mermaid
 flowchart TD
-    subgraph Day0 ["<b>Day 0. 사전 필수 기반 인프라 (Pre-requisite Foundation)</b>"]
-        direction LR
-        I1["🐳 <b>Docker & Sandbox</b><br><small>표준 컨테이너·코드 격리</small>"]
-        I2["🔐 <b>인증 & 토큰 제어</b><br><small>JWT/Key·Redis Rate Limiter</small>"]
-        I3["🛡️ <b>보안 & 가드레일</b><br><small>시크릿 격리·PII 마스킹</small>"]
-        I4["📊 <b>ELF 중앙 로깅</b><br><small>JSON 로깅·Kibana 관제</small>"]
+    subgraph Day0 ["<b>Day 0. 사전 필수 구축 4대 인프라 (Pre-requisite Foundation)</b>"]
+        direction TB
+        subgraph RowA ["인프라 & 제어 계층"]
+            direction LR
+            I1["🐳 <b>1. Docker & Sandbox</b><br><small>표준 컨테이너·코드 격리망</small>"]
+            I2["🔐 <b>2. 인증 & 토큰 제어</b><br><small>JWT/Key·Redis Rate Limiter</small>"]
+        end
+        subgraph RowB ["보안 & 관제 계층"]
+            direction LR
+            I3["🛡️ <b>3. 보안 & 가드레일</b><br><small>시크릿 격리·PII 자동 마스킹</small>"]
+            I4["📊 <b>4. ELF 중앙 로깅</b><br><small>구조화 JSON·Kibana 관제</small>"]
+        end
+        RowA --- RowB
     end
 
-    subgraph Day1 ["<b>Day 1+. 비즈니스 로직 및 LLM 파이프라인 개발</b>"]
+    subgraph Day1 ["<b>Day 1+. 비즈니스 로직 및 파이프라인 개발</b>"]
         direction LR
         L1["프롬프트 엔지니어링"] --> L2["RAG & Vector DB"] --> L3["Agent & Tool Calling"] --> L4["평가 & LLMOps"]
     end
