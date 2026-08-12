@@ -40,6 +40,23 @@ def create_app(project_dir: Path) -> FastAPI:
     async def get_tasks():
         return parse_checklists(project_dir)
 
+    @app.get("/api/doc")
+    async def get_doc(name: str):
+        # 후보 경로들 탐색
+        candidates = [
+            project_dir / "docs" / "llm-development" / name,
+            project_dir / "docs" / name,
+            project_dir / name,
+        ]
+        for p in candidates:
+            if p.exists() and p.is_file():
+                try:
+                    content = p.read_text(encoding="utf-8")
+                    return {"name": name, "content": content, "path": str(p.relative_to(project_dir))}
+                except Exception as e:
+                    return JSONResponse(status_code=500, content={"error": str(e)})
+        return JSONResponse(status_code=404, content={"error": "Document not found"})
+
     @app.get("/")
     async def index():
         return FileResponse(STATIC_DIR / "index.html")

@@ -81,8 +81,28 @@
                 </div>
             </section>
         </main>
+        <!-- Document Viewer Modal -->
+        <div id="docModal" class="modal-overlay" onclick="closeDocModal(event)">
+            <div class="modal-content card" onclick="event.stopPropagation()">
+                <div class="modal-header">
+                    <div class="modal-title-area">
+                        <span class="modal-icon">📄</span>
+                        <div>
+                            <h2 id="modalDocTitle">문서 제목</h2>
+                            <p id="modalDocPath" class="subtitle">문서 경로</p>
+                        </div>
+                    </div>
+                    <button class="btn-close" onclick="closeDocModal()">✕</button>
+                </div>
+                <div id="modalDocBody" class="markdown-body">
+                    <div class="loading-spinner">문서를 불러오는 중...</div>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <!-- Marked.js for markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="/static/app.js"></script>
 </body>
 </html>

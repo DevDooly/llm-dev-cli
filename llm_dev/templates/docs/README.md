@@ -52,28 +52,17 @@
 
 AI 어시스턴트(Gemini, Cursor, Copilot 등)가 코드를 생성하거나 수정할 때 **반드시 준수해야 하는 핵심 지침**입니다.
 
-### 1. 기술 스택 & 인프라 (Tech Stack & Infra)
-- **Backend:** Java 21 (Record, Pattern Matching, Virtual Threads 우선) + Spring Boot 3.x 또는 Python 3.11+ / FastAPI
-- **Architecture:** 계층형 아키텍처 엄격 준수 (`Controller` ➔ `Service` ➔ `Repository`/`Domain`)
-- **Logging:** `System.out.println` / `print()` 절대 금지 $\rightarrow$ MDC / Context가 포함된 **구조화 JSON 로깅** 필수
-- **Sandbox:** Agent가 실행할 코드는 호스트에서 직접 실행 금지 $\rightarrow$ **네트워크 차단 Docker 샌드박스**에서 격리 실행
-
-### 2. 표준 API 응답 구조 (Response Format)
-```json
-// 성공 (HTTP 200/201)
-{ "success": true, "data": { ... }, "error": null }
-
-// 실패 (HTTP 4xx/5xx)
-{ "success": false, "data": null, "error": { "code": "ERROR_CODE", "message": "에러 메시지" } }
-```
-
-### 3. 절대 금지 사항 (Strict Prohibitions)
-1. 사전 승인 없는 외부 라이브러리/의존성 임의 추가 금지
-2. API Key, DB 비밀번호 등 보안 민감 정보 하드코딩 금지 (환경변수/Secret Manager 필수)
-3. 토큰 사용량(Usage) 및 TraceID를 기록하지 않는 LLM API 호출 코드 작성 금지
-4. 명확하지 않은 요구사항에 대해 추측으로 구현하지 말고 **개발자에게 역질문(Questions)** 수행
+| 영역 | 표준 권장 사양 | 엄격 금지 사항 |
+| :--- | :--- | :--- |
+| **Backend** | Python 3.11+ / FastAPI, Java 21 / Spring Boot 3.x | 레거시 스택 및 미승인 외부 패키지 임의 추가 |
+| **Architecture** | 계층형 아키텍처 (`Controller` ➔ `Service` ➔ `Repo`) | Controller 내 비즈니스 로직 혼재 |
+| **Logging** | TraceID/토큰 메트릭 포함 구조화 JSON 로깅 | `print()`, `System.out.println()` 직접 사용 |
+| **Sandbox** | 네트워크 차단 Docker 샌드박스 격리 실행 | 호스트 환경에서 Agent 코드 직접 실행 |
+| **Security** | 환경변수/Secret Manager 기반 시크릿 관리 | API Key, DB 비밀번호 코드 내 하드코딩 |
+| **API Schema** | `{ "success": true, "data": ..., "error": null }` | 비정형 텍스트 및 에러 스택트레이스 노출 |
 
 ---
+
 
 ## 🚀 시작하기 & 활용 방법 (How to Start)
 

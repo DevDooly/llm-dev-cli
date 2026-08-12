@@ -65,10 +65,11 @@ function renderTasks(data) {
 
     data.files.forEach(f => {
         const item = document.createElement('div');
-        item.className = 'task-item';
+        item.className = 'task-item clickable';
+        item.onclick = () => openDocModal(f.file);
         item.innerHTML = `
             <div class="task-top">
-                <span class="task-file">${f.file}</span>
+                <span class="task-file">📄 ${f.file}</span>
                 <span style="font-size:0.85rem; font-weight:700; color:${f.percent === 100 ? '#34d399' : '#9ca3af'};">
                     ${f.checked}/${f.total} (${f.percent}%)
                 </span>
@@ -81,6 +82,50 @@ function renderTasks(data) {
     });
 }
 
+async function openDocModal(fileName) {
+    const modal = document.getElementById('docModal');
+    const titleEl = document.getElementById('modalDocTitle');
+    const pathEl = document.getElementById('modalDocPath');
+    const bodyEl = document.getElementById('modalDocBody');
+
+    titleEl.textContent = fileName;
+    pathEl.textContent = '문서 로딩 중...';
+    bodyEl.innerHTML = '<div class="loading-spinner">문서를 불러오는 중...</div>';
+    modal.classList.add('active');
+
+    try {
+        const res = await fetch(`/api/doc?name=${encodeURIComponent(fileName)}`);
+        if (!res.ok) throw new Error('문서를 불러올 수 없습니다.');
+        const docData = await res.json();
+
+        pathEl.textContent = docData.path || fileName;
+        if (window.marked) {
+            bodyEl.innerHTML = marked.parse(docData.content);
+        } else {
+            bodyEl.textContent = docData.content;
+        }
+    } catch (e) {
+        bodyEl.innerHTML = `<div class="diag-sugg" style="color:#f87171;">⚠️ ${e.message}</div>`;
+    }
+}
+
+function closeDocModal(event) {
+    if (event && event.target !== document.getElementById('docModal') && !event.target.classList.contains('btn-close')) {
+        return;
+    }
+    const modal = document.getElementById('docModal');
+    modal.classList.remove('active');
+}
+
+// ESC 키로 모달 닫기
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        const modal = document.getElementById('docModal');
+        if (modal) modal.classList.remove('active');
+    }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     loadAllData();
 });
+
