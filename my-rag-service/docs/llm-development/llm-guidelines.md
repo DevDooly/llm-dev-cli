@@ -189,9 +189,9 @@ Conventional Commits 규격 준수: `feat:`, `fix:`, `refactor:`, `docs:`, `styl
 - [x] **01. [`llm-logging-and-observability.md`](./llm-logging-and-observability.md) (ELF/EFK 중앙 로그 모니터링 & LLMOps 가이드)**
 - [x] **02. [`llm-docker-and-sandbox.md`](./llm-docker-and-sandbox.md) (Docker 컨테이너화 & Agent Sandbox 가이드)**
 - [x] **03. [`llm-auth-and-security.md`](./llm-auth-and-security.md) (인증/인가, Rate Limit, RBAC & 보안 가드레일)**
-- [ ] **04. `llm-architecture-design.md` (RAG 파이프라인 & Vector DB 설계서)**
-- [ ] **05. `prompt-templates-catalog.md` (프롬프트 템플릿 카탈로그)**
-- [ ] **06. `llm-eval-and-benchmarks.md` (RAGAS & LLM-as-a-Judge 평가 가이드)**
+- [x] **04. [`llm-architecture-design.md`](./llm-architecture-design.md) (RAG 파이프라인 & Vector DB 설계서)**
+- [x] **05. [`prompt-templates-catalog.md`](./prompt-templates-catalog.md) (프롬프트 템플릿 & Few-shot 카탈로그)**
+- [x] **06. [`llm-eval-and-benchmarks.md`](./llm-eval-and-benchmarks.md) (RAGAS & LLM-as-a-Judge 평가 가이드)**
 - [ ] **07. `llm-agent-and-tools.md` (LLM Agent & Function Calling 개발 지침)**
 
 ---

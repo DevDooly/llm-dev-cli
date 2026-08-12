@@ -24,9 +24,9 @@
 | :--- | :--- | :---: | :---: |
 | **LLM 개발 가이드라인 & AI 룰셋** | LLM 개발 6단계 라이프사이클, AI 코딩 어시스턴트 프로젝트 코딩 룰셋 | ✅ 완료 | 📘 [llm-guidelines.md](./llm-guidelines.md) |
 | **지식베이스 마스터 로드맵** | 전 영역별 상세 구축 로드맵, 세부 스펙 및 문서화 현황 관리 | ✅ 완료 | 🗺️ [llm-roadmap.md](./llm-roadmap.md) |
-| **RAG & 아키텍처 설계서** | Vector DB(Qdrant/Chroma), 청킹 전략, Hybrid Search & Reranking | 📝 예정 | 📐 `llm-architecture-design.md` |
-| **프롬프트 템플릿 카탈로그** | 역할/업무별 System/User 프롬프트 및 Few-shot 카탈로그 | 📝 예정 | 📜 `prompt-templates-catalog.md` |
-| **LLM 평가 및 검증 가이드** | RAGAS (Faithfulness/Relevance) 및 LLM-as-a-Judge 자동 평가 | 📝 예정 | 🧪 `llm-eval-and-benchmarks.md` |
+| **RAG & 아키텍처 설계서** | Vector DB(Qdrant/pgvector), 청킹 전략, Hybrid Search & Reranking | ✅ 완료 | 📐 [llm-architecture-design.md](./llm-architecture-design.md) |
+| **프롬프트 템플릿 카탈로그** | RTC-CF 5대 원칙, RAG 템플릿, Pydantic JSON 강제 추출 & Few-shot | ✅ 완료 | 📜 [prompt-templates-catalog.md](./prompt-templates-catalog.md) |
+| **LLM 평가 및 검증 가이드** | RAGAS (Faithfulness/Relevance) 및 LLM-as-a-Judge 정량 평가 | ✅ 완료 | 🧪 [llm-eval-and-benchmarks.md](./llm-eval-and-benchmarks.md) |
 | **Agent & Tool Calling 가이드** | Function Calling / Tool Use, ReAct 에이전트 및 무한 루프 제어 | 📝 예정 | 🤖 `llm-agent-and-tools.md` |
 | **자동화 도구 기획 및 설계서** | 프로젝트 초기화(Init) 및 룰 준수 검증(Doctor) 자동화 CLI 도구 명세 | ✅ 완료 | 🛠️ [llm-automation-tool-spec.md](./llm-automation-tool-spec.md) |
 

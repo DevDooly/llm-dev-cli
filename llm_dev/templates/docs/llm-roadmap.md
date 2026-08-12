@@ -23,9 +23,9 @@
 | **02** | [`llm-docker-and-sandbox.md`](./llm-docker-and-sandbox.md) | **[Day 0]** Docker Compose 로컬 통합 스택 및 Agent 코드 실행용 격리 Sandbox 구축 | ✅ 완료 |
 | **03** | [`llm-auth-and-security.md`](./llm-auth-and-security.md) | **[Day 0]** JWT/API Key, Redis Token Bucket Rate Limiter, RAG RBAC & PII 마스킹 | ✅ 완료 |
 | **04** | [`llm-guidelines.md`](./llm-guidelines.md) | LLM 프로젝트 전체 라이프사이클(Phase 0~5) 및 AI 코딩 어시스턴트 룰셋 | ✅ 완료 |
-| **05** | `llm-architecture-design.md` | RAG 파이프라인, Vector DB(Qdrant/Chroma), 임베딩 및 하이브리드 검색 설계 | 📝 예정 |
-| **06** | `prompt-templates-catalog.md` | 업무별 실전 System/User 프롬프트 템플릿 및 Few-shot 카탈로그 | 📝 예정 |
-| **07** | `llm-eval-and-benchmarks.md` | RAGAS (Faithfulness/Relevance) 및 LLM-as-a-Judge 자동 평가 | 📝 예정 |
+| **05** | [`llm-architecture-design.md`](./llm-architecture-design.md) | RAG 파이프라인, Vector DB(Qdrant/pgvector), 청킹, 하이브리드 검색 설계 | ✅ 완료 |
+| **06** | [`prompt-templates-catalog.md`](./prompt-templates-catalog.md) | RTC-CF 원칙, 실전 System/User 프롬프트 템플릿 및 Few-shot 카탈로그 | ✅ 완료 |
+| **07** | [`llm-eval-and-benchmarks.md`](./llm-eval-and-benchmarks.md) | RAGAS (Faithfulness/Relevance) 및 LLM-as-a-Judge 정량 평가 체계 | ✅ 완료 |
 | **08** | `llm-agent-and-tools.md` | Function Calling / Tool-Use, ReAct 및 다단계 자율 에이전트 설계 | 📝 예정 |
 | **09** | [`llm-automation-tool-spec.md`](./llm-automation-tool-spec.md) | LLM 프로젝트 초기화(Init) 및 룰 준수 지속 검증(Doctor) 자동화 CLI 설계서 | ✅ 완료 |
 

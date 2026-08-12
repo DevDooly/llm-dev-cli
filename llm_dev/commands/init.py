@@ -254,6 +254,11 @@ def run_init(
             for f in fastapi_dir.glob("*.py"):
                 shutil.copy2(f, core_dir / f.name)
                 created_items.append((f"src/core/{f.name}", "FastAPI Security & PII Boilerplate"))
+            env_src = fastapi_dir / ".env.example"
+            if env_src.exists():
+                shutil.copy2(env_src, target_dir / ".env.example")
+                created_items.append((".env.example", "Environment Variables Template"))
+
 
     elif stack.lower() == "spring":
         spring_dir = BOILERPLATES_DIR / "spring"
